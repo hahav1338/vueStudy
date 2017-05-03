@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>示例</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+    </style>
+    <script src="./src/vuex/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{ruitNamess.value}}
+    <input_default v-bind:parentname="ruitNamess"></input_default><power_select v-bind:parentkids=" powerInputValue"></power_select><btn_add v-on:btnadd="btnaddfn"></btn_add>
+    <ul v-bind:style="ulStyle">
+        <!-- 现在我们为每个todo-item提供待办项对象    -->
+        <!-- 待办项对象是变量，即其内容可以是动态的 -->
+        <li style="background:#E3E3E3;border-bottom: 1px solid #666">名称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种类</li>
+        <todo-item v-for="(item,index) in groceryList" v-bind:tod="item" v-bind:todo="groceryList" v-bind:style="index%2===0?liStyle:liSyleUn"></todo-item>
+    </ul>
+</div>
+<script type="text/javascript">
+    Vue.component('todo-item', {
+        props: ['tod','todo'],
+        template: '<li>{{ tod.text }}</li>',
+        mounted:function(){
+
+        }
+    })
+    Vue.component('btn_add', {
+        data(){
+            return{
+               xn_btn:{
+                   'width':'113px',
+                   'height':'34px',
+                   background:'#4159a6',
+                   'line-height':'34px',
+                   'border':'none',
+                   'color':'#fff',
+                   'text-align':'center',
+                   'cursor':'pointer'
+               }
+
+           }
+        },
+        props: ['btnadd'],
+        template: '<button v-bind:style="xn_btn" v-on:mouseenter="xn_hover" v-on:mouseout="xn_btnfn" v-on:click="btnclik">添加</button>',
+        methods:{
+            xn_hover:function(){
+
+                this.xn_btn.background='#4000a6';
+            },
+            xn_btnfn:function(){
+                this.xn_btn.background='#4159a6';
+            },
+            btnclik:function(){
+                this.xn_btn.background='#5159a6';
+                this.$emit('btnadd');
+            }
+        }
+    })
+    Vue.component('input_default', {
+
+        data () {
+            return {
+                input_default:{
+                    'display':'inline-block',
+                    'width':'300px',
+                    'height':"30px",
+                    'border':'1px solid #C0C0C0',
+                    'margin-right':'10px'
+                }
+            }
+        },
+        props:['parentname'],
+        template: '<input v-bind:style="input_default"  v-on:focus="fs" v-on:keyup="inp" v-on:blur="bl" v-bind:value="parentname.value">',
+
+        mounted:function(){
+            console.log("111");
+            console.log(this);
+                console.log(this.parentname.value);
+        },
+        methods:{
+            fs: function(event) {
+                if(event.target.value==="名称"){
+                    event.target.value="";
+                }
+
+            },
+            inp:function(){
+
+            },
+            bl:function(event){
+                if(!event.target.value||event.target.value==="名称"){
+                   alert("请填写名称");
+                    event.target.disabled = true;
+                    setInterval(function (){
+                        event.target.removeAttribute('disabled');
+                        event.target.focus();
+                    },10);
+
+                }else{
+                    this.parentname.value=event.target.value;
+                }
+
+            }
+        }
+    })
+    Vue.component('power_select', {
+        data () {
+            return {
+                ulDisplay:{
+                    'display':'none',
+                    'position':'absolute',
+                    'margin-top':'0',
+                    'border':'1px solid #666',
+                    'background':'#fff',
+                     'width':'300px',
+                    'list-style-type':'none'
+                },
+
+                selectorStyle:{
+                    'width':'300px',
+                    'height':'30px',
+                    'z-index':'1',
+                    'margin-right':'15px',
+                    'padding':'0',
+                    'display':'inline-block',
+                    'position':'relative',
+                    'top':'0',
+                    'left':'0'
+                },
+                out_parent_i:{
+                    'font-size':'5px',
+                    'color':'#777',
+                   'width':'15px',
+                    'height':'30px',
+                    'line-height':'30px',
+                    'position':'absolute',
+                    'top':'0',
+                    'right':'0',
+                    'font-size':'15p',
+                    'cursor':''
+                },
+                options:[{power:"水果",out_parent_ul_li:{
+                    'background':'white',
+                    'width':'100%'
+                }},{power:"蔬菜",out_parent_ul_li:{
+                    'background':'white',
+                    'width':'100%'
+                }},{power:"粮食",out_parent_ul_li:{
+                    'background':'white',
+                    'width':'100%'
+                }},{power:"其它",out_parent_ul_li:{
+                    'background':'white',
+                    'width':'100%'
+                }}]
+            }
+        },
+        template: ' <div  v-bind:style="selectorStyle">'+
+        '<i v-on:mouseenter = "out_parent_i_hover"  v-bind:style="out_parent_i"  v-on:click="powerClickBtn">▼</i>'+
+        '<input style="width:300px;height:25px" v-on:click="powerClickBtn($event)" v-bind:value="parentkids.value"/>'+
+        '<ul v-bind:style="ulDisplay" style="padding:0">'+
+        '<li v-on:mouseenter="out_parent_ul_li_hover(item)" v-on:mouseout="out_parent_ul_li_out(item)" v-for="(item,index) in options" v-bind:style="item.out_parent_ul_li" v-on:click="liClick($event,item)"  v-text="item.power">111</li>'+
+        '</ul>'+
+        '</div>',
+        props:['parentkids'],
+        mounted:function(){
+
+        },
+        methods:{
+            mousedownFn:function(){
+                this.ulDisplay.display="none";
+            },
+            powerClickBtn:function(event){//下拉框样式控制
+                //下拉框有数据的话执行
+                if(this.options.length){
+                    this.ulDisplay.display="block";
+                    event.target.blur();
+                    var fn=this.mousedownFn;
+                    document.addEventListener("click",fn, true)
+                }
+
+            },
+            liClick:function(event,item){
+                this.parentkids.value=event.target.innerText;
+                this.ulDisplay.display="none";
+            },
+            liMouseenter:function(){
+                var fn=this.mousedownFn;
+                document.removeEventListener('mousedown',fn,true);
+            },
+            out_parent_i_hover:function(){
+                this.out_parent_i.cursor='pointer';
+            },
+            out_parent_ul_li_hover:function(item){
+
+                item.out_parent_ul_li['background'] = '#C1DDF1';
+            },
+            out_parent_ul_li_out:function(item){
+                item.out_parent_ul_li.background = 'white';
+            }
+        }
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ulStyle:{
+                'margin-top':'15px',
+                'text-align':'center',
+                'border':'5px solid #61A083',
+                'background':'#fff',
+                'width':'600px',
+                'list-style-type':'none',
+                'padding':'0'
+            },
+            liStyle:{
+                'border-bottom':'1px solid #C4C4C4',
+                'background':'#D4D4D4'
+            },
+            liSyleUn:{
+                'border-bottom':'1px solid #C4C4C4',
+                'background':'#E3E3E3'
+            },
+            groceryList: [
+                { text: '苹果(水果)' },
+                { text: '奶酪(其它)' },
+                { text: '西红柿(蔬菜)' },
+                { text: '牛奶(其它)' },
+                { text: '小米(粮食)' },
+                { text: '大米(粮食)' }
+            ],
+            ruitNamess:{value:'名称'},
+            powerInputValue:{value:'种类'}
+        },
+        methods:{
+            out_parent_ul_li_hover:function(item){
+                item.out_parent_ul_li.background = '#C1DDF1';
+            },
+            out_parent_ul_li_out:function(item){
+                item.out_parent_ul_li.background = 'white';
+            },
+            btnaddfn:function(){
+                console.log("6666");
+                console.log(this.ruitNamess.value,this.powerInputValue.value);
+                var str = this.ruitNamess.value +"("+this.powerInputValue.value+")";
+                for(var i = 0;i<this.groceryList.length;i++){
+                    if(this.groceryList[i].text===str){
+                        alert("该条目已存在");
+                        return false
+                    }
+                }
+                this.groceryList.push({text:str});
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

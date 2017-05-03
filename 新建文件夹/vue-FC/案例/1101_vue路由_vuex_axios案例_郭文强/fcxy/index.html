@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vuefcxy</title>
+
+    <style>
+      body {
+
+        margin:0;
+        padding:10px;
+        background:#F5F5F5;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+
+      <div>
+        <!-- <router-link>默认会被渲染成一个 `<a>` 标签 ,to指令跳转到指定路径 -->
+
+        <router-link to="/second"></router-link>
+
+      </div>
+
+      <!--&lt;!&ndash; 5、在页面上使用<router-view></router-view>标签，用于渲染匹配的组件 &ndash;&gt;-->
+      <router-view></router-view>
+    </div>
+
+    <script src="/dist/build.js">
+
+
+    </script>
+    <script>
+
+    </script>
+  </body>
+</html>

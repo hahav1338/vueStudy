@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+</head>
+<body>
+<!--
+v-for指令
+v-for指令基于一个数组渲染一个列表,它和JavaScript的遍历语法相似：
+
+v-for="item in items"
+items是一个数组,item是当前被遍历的数组元素。
+-->
+<div id="box">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Sex</th>
+        </tr>
+        <tr v-for="person in people">
+            <td>{{person.name}}</td>
+            <td>{{person.age}}</td>
+            <td>{{person.sex}}</td>
+        </tr>
+    </table>
+</div>
+<!--多维-->
+<div id="box2">
+    <div v-for="a in man">
+        <div v-for="b in a">
+            <li>{{b.name}}</li>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el:"#box2",
+        data:{
+            man:{
+                people:[
+                    {
+                        name:'Jack',
+                        age:19,
+                        sex:'box'
+                    },{
+                        name:'Jack2',
+                        age:29,
+                        sex:'girl'
+                    },{
+                        name:'Jack3',
+                        age:39,
+                        sex:'middle'
+                    }
+                ],
+                nopeople:[
+                    {
+                        name:'mack',
+                        age:19,
+                        sex:'box'
+                    },{
+                        name:'mack2',
+                        age:29,
+                        sex:'girl'
+                    },{
+                        name:'mack3',
+                        age:39,
+                        sex:'middle'
+                    }
+                ]
+            }
+        }
+    })
+</script>
+</body>
+</html>

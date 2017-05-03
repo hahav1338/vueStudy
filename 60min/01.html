@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+</head>
+<body>
+<div id="box">
+    {{msg}}<br>
+    <input type="text" v-model="msg">
+</div>
+<script>
+//    使用Vue的过程就是定义MVVM各个组成部分的过程的过程。
+//
+//    定义View
+//    定义Model
+//    创建一个Vue实例或"ViewModel",它用于连接View和Model
+
+//Vue  常用指令
+//v-if指令
+//v-show指令
+//v-else指令
+//v-for指令
+//v-bind指令
+//v-on指令
+/*
+*
+*
+*
+*
+*
+* */
+    var vuea=new Vue({
+        el:'#box',
+        data:{
+            msg:"hello11",
+
+        }
+    });
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+    <style>
+        .box{
+            border:1px dashed #f0f;
+        }
+        .textColor{
+            color:#f00;
+            background-color:#eef;
+        }
+        .textSize{
+            font-size:18px;
+            font-weight:bold;
+        }
+        .add{
+
+        }
+    </style>
+</head>
+<body>
+<!--我们可以把一个数组传给v-bind:class,以应用一个class列表-->
+<!--如果想根据条件切换列表中的class,可以用三目运算-->
+<!--<div v-bind:class="[classA, { classB: isB, classC: isC }]">-->
+<ul class="box2" v-bind:class="[classA,{textSize:isB}]">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+</ul>
+<script>
+    var vm2=new Vue({
+        el:'.box2',
+        data:{
+            classA:"textColor",
+            classB:"textSize",
+            classC:"add",
+            isB:true,
+            isC:true
+        }
+    })
+
+</script>
+<!--内联样式语法-->
+<!--
+v-bind:style 的对象语法十分直观--非常像CSS,其实它是一个Javascript对象,
+CSS属性名必须用驼峰命名法 （官方文档写的是既可以用驼峰也可以用 短横分隔命名法）,
+但是用短横分隔是会报错的
+-->
+<!--<div id="box" :style="{color:activeColor, fontSize:size, textShadow:shadow}">红嘴绿鹦哥</div>-->
+<!--<script>-->
+    <!--var vm3= new Vue({-->
+    <!--el:'#box',-->
+    <!--data:{-->
+        <!--activeColor:'#f00',-->
+        <!--size:'30px',-->
+        <!--shadow:'5px 2px 6px #000'-->
+    <!--}-->
+    <!--})-->
+<!--</script>-->
+<!--
+也可以直接绑定到一个样式对象,这样更好,让模板更清晰：
+
+HTML代码：
+
+<div id="box" :style="styleObject">红嘴绿鹦哥</div>
+
+
+JS代码：
+
+var vm= new Vue({
+    el:'#box',
+    data:{
+        styleObject:{
+            color:'red',
+            fontSize:'30px'
+        }
+    }
+})
+-->
+<!--
+内联样式
+
+-->
+<!--数组语法-->
+
+<!--可将多个样式对象应用到一个元素上-->
+
+<!--HTML代码：-->
+
+<!--<div class="box" :style="[styleObjectA, styleObjectB]">好好学习，天天向上</div>-->
+
+
+<!--&lt;!&ndash;JS代码：&ndash;&gt;-->
+<!--<script>-->
+    <!--var vm2= new Vue({-->
+    <!--el:'.box',-->
+    <!--data:{-->
+        <!--styleObjectA:{-->
+            <!--fontSize:'36px',-->
+            <!--color:'blue'-->
+        <!--},-->
+        <!--styleObjectB:{-->
+            <!--textDecoration:'underline'-->
+        <!--}-->
+    <!--}-->
+    <!--})-->
+<!--</script>-->
+
+<!--给img标签的src属性赋值时，按照传统的方法{{url}}：-->
+<!--图片可以正常显示，但是会报一个404错误，查看控制台可以看到，Vue更加推荐我们使用 v-bind:src-->
+
+HTML代码：
+
+<img class="box" v-bind:src="url" >
+
+
+JS代码：
+<script>
+    var vm= new Vue({
+        el:'.box',
+        data:{
+            url:'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png'
+        }
+    })
+</script>
+
+
+</body>
+</html>

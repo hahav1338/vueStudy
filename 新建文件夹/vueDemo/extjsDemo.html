@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>extjs演示</title>
+<link href="css/ext-all.css" rel="stylesheet" />
+<link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="css/fc-all.css" rel="stylesheet" />
+<link href="css/ClearButton.css" rel="stylesheet" />
+
+
+</head>
+<body class="xn-body">
+    <div id="panelBox"></div>
+    <div id=""  class="xn_search_form"></div> <!--此处的xn_search_form类，是用来重写extjs样式的，样式在fc-all.css中有定义-->
+
+
+    <div>
+        <div class="xn_section_wrap">
+            <div class="xn_section_title">
+                <span class="icon_wrap"><i class="icon-th"></i></span>
+                <span class="xn_title_name">搜索框示例</span>
+            </div>
+            <div class="xn_search_form" style="" id="formBox">
+				<button class="xn_btn xn_btn_primary" style="float:right; margin-right: 20px;" id=""><i class="icon icon-plus"></i>&nbsp;&nbsp;添加</button>
+			</div>
+        </div>
+        <div class="xn_section_wrap">
+            <div class="xn_section_title">
+                <span class="icon_wrap"><i class="icon-th"></i></span>
+                <span class="xn_title_name">列表示例</span>
+            </div>
+            <div id="mainTableBox"></div>
+        </div>
+    </div>
+
+    <div class="xn_section_wrap">
+        <div class="xn_section_title">
+            <span class="icon_wrap"><i class="icon-th"></i></span>
+            <span class="xn_title_name">弹窗示例</span>
+        </div>
+        <div style="padding: 20px;">
+            <button class="xn_btn xn_btn_primary" style="margin-right: 20px;" id="" onclick='Ext.Msg.alert("提示", "这是extjs的弹窗！");'>alert弹窗</button>
+            <button class="xn_btn xn_btn_primary" style="margin-right: 20px;" id="" onclick="AddAndEdit();">输入框弹窗</button>
+            <button class="xn_btn xn_btn_primary" style="margin-right: 20px;" id="" onclick="upLoad();">文件上传弹窗</button>
+        </div>
+    </div>
+
+</body>
+<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="js/basicParameter.js" type="text/javascript"></script>
+<script src="js/ext-all.js" type="text/javascript"></script>
+<script src="js/basicExtModule.js" type="text/javascript"></script>
+<script src="js/PagingToolBar.js" type="text/javascript"></script>
+<script src="js/tools.js" type="text/javascript"></script>
+<script src="js/ClearButton.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var GLOBAL = GLOBAL || {};
+	Ext.onReady(function(){
+
+		//panel示例
+		GLOBAL.panelbox = Ext.create('Ext.panel.Panel', {
+			renderTo: 'panelBox',  //参数值是一个页面标签的id，表示此控件生成以后需要载入到此id的页面标签中
+			title:'我是顶级panel',   //panel的标题，如果不写，就没有标题。
+			layout: '',            //默认是
+			margin:'10',
+			items:[{
+				xtype: 'panel',
+				title:'上面的panel',
+				layout: 'hbox',
+				margin:'20',
+				items:[{
+					xtype: 'panel',
+					padding:'20',
+					html : '左边的panel'
+				},{
+					xtype: 'panel',
+					padding:'20',
+					html : '右边的panel'
+				}]
+			},{
+				xtype: 'panel',
+				title:'下面的panel',
+				padding:'20',
+				html : '<div style="margin-top: 20px;">中间的html内容</div>'
+			}]
+
+		});
+
+		//提前准备的comb数据
+		GLOBAL.comboData01 = [
+				['value1','text1'],
+				['value2','text2'],
+				['value3','text3'],
+				['value4','text4'],
+				['value5','text5']
+		];
+		GLOBAL.comboData02 = [
+			['value6','text6'],
+			['value7','text7'],
+			['value8','text8'],
+			['value9','text9'],
+			['value10','text10']
+		];
+
+		//combo的数据store01
+		GLOBAL.comboStor01 = Ext.create('Ext.data.Store', {
+			fields:['myVal', 'myName']
+		});
+		//为store加载数据
+		GLOBAL.comboStor01.loadData(GLOBAL.comboData01);
+
+		//表单示例
+		GLOBAL.searchbox = Ext.create('Ext.form.Panel', {
+			renderTo: 'formBox',
+			margin:'10',
+			items:[{
+				xtype: 'panel',
+				layout: 'hbox',
+				items :[
+					new Ext.custom.minitextfield({
+					itemId : "userName",
+					name : "userName",
+					emptyText:'用户名'
+				}),new Ext.custom.textfield({
+					itemId : "",
+					name : "",
+					emptyText:'课程名称'
+				}),new Ext.custom.middletextfield({
+					itemId : "",
+					name : "",
+					emptyText:'课程名称'
+				})
+				]
+			},{
+				xtype: 'panel',
+				layout: 'hbox',
+				margin: '10 0 0 0',
+				items :[new Ext.custom.bigtextfield({
+					itemId : "",
+					name : "",
+					emptyText:'课程名称',
+				})]
+			},{
+				xtype: 'panel',
+				layout: 'hbox',
+				margin: '10 0 0 0',
+				items :[new Ext.custom.basicCombo({
+					fieldLabel : '权限选择',
+					itemId :'myAuthority',
+					labelAlign : 'right',
+					displayField: 'myName',
+					valueField: 'myVal',
+                    plugins: ['clearbutton'],
+					store : GLOBAL.comboStor01
+				}),{
+					xtype: 'panel',
+					html : '<button class="xn_btn xn_btn_success" id="btn_search" onclick="GLOBAL.comboStor01.loadData(GLOBAL.comboData02)">更改数据</button>'
+				}]
+			},{
+				xtype: 'panel',
+				layout: 'hbox',
+				margin: '10 0 0 0',
+				items :[{
+					xtype:'button',
+					margin:'10 0 0 10',
+					width:100,
+					height:34,
+					handler : function(){
+						//获取value值
+						console.log(GLOBAL.searchbox.down("#userName").getValue());
+
+						//获取value值
+						console.log(GLOBAL.searchbox.down("#myAuthority").getValue());
+
+						//获取显示值
+						console.log(GLOBAL.searchbox.down("#myAuthority").getRawValue());
+
+					},
+					style :'background:#6EC131;border:0',
+					text:'获取输入值'
+				},{
+					xtype:'button',
+					margin:'10 0 0 10',
+					width:100,
+					height:34,
+					handler : function(){
+						//设置用户名输入框的值
+						GLOBAL.searchbox.down("#userName").setValue("新的用户名");
+						//设置选中第一个
+						GLOBAL.searchbox.down("#myAuthority").setValue( GLOBAL.searchbox.down("#myAuthority").getStore().getAt(0) );
+
+					},
+					text:'设置值'
+				}]
+			}]
+
+		});
+
+
+
+		//表格示例
+		//表格数据
+        GLOBAL.tableDatea = {
+			"pageStart":0,
+			"pageSize":10,
+			"count":15,
+			"list0":[{
+				"title":"html基础1",
+				"nomber":"yysd4568",
+				"courseId":"1",
+				"classify":"前端",
+				"publishAt":"2014/05/09",
+				"createAt":"2014/05/09",
+				"status":2
+			},{
+                "title":"html基础2",
+                "nomber":"yysd4568",
+                "courseId":"2",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础3",
+                "nomber":"yysd4568",
+                "courseId":"3",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础4",
+                "nomber":"yysd4568",
+                "courseId":"4",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础5",
+                "nomber":"yysd4568",
+                "courseId":"5",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础6",
+                "nomber":"yysd4568",
+                "courseId":"6",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础7",
+                "nomber":"yysd4568",
+                "courseId":"7",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础8",
+                "nomber":"yysd4568",
+                "courseId":"8",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础9",
+                "nomber":"yysd4568",
+                "courseId":"9",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础10",
+                "nomber":"yysd4568",
+                "courseId":"10",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            }],
+            "list10":[{
+                "title":"html基础11",
+                "nomber":"yysd4568",
+                "courseId":"11",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础12",
+                "nomber":"yysd4568",
+                "courseId":"12",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础13",
+                "nomber":"yysd4568",
+                "courseId":"13",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础14",
+                "nomber":"yysd4568",
+                "courseId":"14",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            },{
+                "title":"html基础15",
+                "nomber":"yysd4568",
+                "courseId":"15",
+                "classify":"前端",
+                "publishAt":"2014/05/09",
+                "createAt":"2014/05/09",
+                "status":2
+            }]
+		}
+		//刷新页面重置grid
+		Ext.EventManager.onWindowResize(function(){
+			GLOBAL.courseGrid.getView().refresh()
+		});
+
+		//分页控件分页
+		GLOBAL.pageToolBar = Ext.create('PagingToolBar',{
+			id: 'pageToolBar',
+			onChange: function(pt, pageStart, pageSize, type){
+				getCourseList(pageStart);
+			}
+		});
+
+
+		//课程列表数据
+		GLOBAL.courseListStore = Ext.create('Ext.data.Store', {
+			fields:['title','nomber', 'courseId', 'classify', 'publishAt', 'createAt', 'status']
+		});
+
+		//课程列表表格
+		GLOBAL.courseGrid = Ext.create('Ext.grid.Panel', {
+			store: GLOBAL.courseListStore,
+			minHeight : BPR.gridMinHeight,
+			bbar : GLOBAL.pageToolBar,
+			id : 'mainGridId',
+			listeners : {
+				render: function(g) {
+				}
+			},
+			columns: [
+				{ header: '课程名称', width:150, dataIndex: 'title'},
+				{ header: '课程代号', width:150, dataIndex: 'nomber', flex : 1},
+				{ header: '所属分类', width:150, dataIndex: 'classify'},
+				{ header: '状态', width:150, dataIndex: 'status'},
+				{ header: '编辑日期', width:150, dataIndex: 'publishAt'},
+				{ header: '操作', width:200, dataIndex: 'courseId',
+                    renderer: function(value,cellmeta, record){
+                        //render的意义为将传入的数据，经过加工，返回新的dom，显示到表格中（这里a的样式，在fc-all.js中有从新定义）
+
+                        return '<a class="xn_tablea" onclick="AddAndEdit('+value+')">编辑</a>'
+                                +'<a class="xn_tablea" onclick="">删除</a>';
+                    }
+                }
+			],
+			autoScroll : true,
+			renderTo: 'mainTableBox'
+		});
+
+
+
+		//敲击键盘enter触发搜索
+		$(document).keypress(function(e){
+			if(e.keyCode == 13){
+				getCourseList();
+			}
+		})
+
+        //刚进入页面的时候，请求首页数据。
+        getCourseList();
+
+
+
+	});
+
+
+
+
+	//加载数据列表方法
+	function getCourseList(pageStart){
+
+		//显示数据加载提示
+		msgTip = new Ext.LoadMask(Ext.getCmp('mainGridId'),{
+			msg:'数据加载中，请稍后...',
+			removeMask : true
+		});
+		msgTip.show();
+        //这里直接绑定数据，数据在页面上部有提前定义好。
+		GLOBAL.pageToolBar.setPageSize(GLOBAL.tableDatea.pageSize);
+        var pageStart = pageStart?pageStart:0;
+		GLOBAL.pageToolBar.loadPage(pageStart, GLOBAL.tableDatea.count);
+		GLOBAL.courseListStore.loadData(GLOBAL.tableDatea["list"+pageStart]);
+
+        //隐藏数据加载提示
+        msgTip.hide();
+
+        //ajax示例（按照下面的格式写请求就可以请求了）
+		$.ajax({
+			async: false,
+			url: "需要请求的地址 ，如果是跨域，则在后面加上?callback=?",
+			data : {},
+			type: "POST",
+			dataType: "json"
+		}).done(function (result) {
+            //errTip用于监测后台是否传来错误提示，比如未登陆等。errTip方法写在了tool.js中。
+			errTip(result, function(){
+                //绑定数据
+				GLOBAL.pageToolBar.setPageSize(result.data.pageSize);
+				GLOBAL.pageToolBar.loadPage(pageStart?pageStart:0, result.data.count);
+				GLOBAL.courseListStore.loadData(result.data.info);
+			});
+		}).fail(function () {
+            //如果出现请求错误，则弹出下面的错误提示。
+			//Ext.Msg.alert("错误", "获取课程列表失败！");
+		}).always(function () {
+			//隐藏数据加载提示
+			msgTip.hide();
+		});
+	}
+
+
+    function AddAndEdit(){
+        //添加或修改管理员弹窗
+        GLOBAL.EditWin = GLOBAL.EditWin || new Ext.custom.basicWindow({
+                    title : '添加',
+                    width : 480,
+                    height : 280,
+                    items : [new Ext.form.Panel({
+                        width: '100%',
+                        height:'100%',
+                        bodyPadding: 10,
+                        border:0,
+                        items: [new Ext.custom.middletextfield({
+                            margin:'10 0 0 30',
+                            itemId : "userName",
+                            fieldLabel : '用户名',
+                            beforeLabelTextTpl: required,
+                            labelAlign : 'right'
+                        }),new Ext.custom.middletextfield({
+                            margin:'10 0 0 30',
+                            itemId : "name",
+                            fieldLabel : '姓名',
+                            beforeLabelTextTpl: required,
+                            labelAlign : 'right'
+                        }),new Ext.custom.middletextfield({
+                            margin:'10 0 0 30',
+                            itemId : "phone",
+                            beforeLabelTextTpl: required,
+                            fieldLabel : '手机号',
+                            labelAlign : 'right'
+                        }),new Ext.custom.basicCombo({
+                            margin:'10 0 0 30',
+                            width : 370,
+                            fieldLabel : '权限选择',
+                            itemId :'statusCode',
+                            labelAlign : 'right',
+                            displayField: 'value',
+                            valueField: 'name',
+                            store : ''
+                        }),{
+                            layout : 'hbox',
+                            margin:'10 0 0 140',
+                            arrowAlign: 'right',
+                            items : [{
+                                xtype:'button',
+                                margin:'10 0 0 10',
+                                width:80,
+                                height:30,
+                                handler : function(){
+
+                                    //需要执行的数据方法写在这里
+
+                                },
+                                style :'background:#6EC131;border:0',
+                                text:'确定'
+                            },{
+                                xtype:'button',
+                                margin:'10 0 0 30',
+                                width:80,
+                                height:30,
+                                text:'取消',
+                                handler : function(){
+                                    GLOBAL.EditWin.hide();
+                                }
+                            }]
+                        }]
+                    })]
+                });
+        GLOBAL.EditWin.show();
+    }
+
+    //生成文件上传弹窗
+    function upLoad(){
+
+        var dlg = new Ext.custom.uploadFileWin({
+            title : '上传',
+            customMaxSize : 102400,
+            customSetValueInput : "",
+            customUploadType : 0,
+            index : '',
+            customFilefieldLabel : '附件',
+            customUrl : "/FileUpload",
+            cbFn : function(result){
+                //成功以后的执行函数
+            }
+        }).show();
+    }
+
+
+
+
+</script>
+</html>

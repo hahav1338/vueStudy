@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vuefcxy</title>
+
+    <link href="./src/assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="third-party/jquery.min.js"></script>
+    <script type="text/javascript" src="third-party/template.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="umeditor.min.js"></script>
+    <script type="text/javascript" src="lang/zh-cn/zh-cn.js"></script>
+    <style>
+      body {
+
+        margin:0;
+        padding:10px;
+        background:#F5F5F5;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+
+      <div>
+        <!-- 4、<router-link>默认会被渲染成一个 `<a>` 标签 ,to指令跳转到指定路径 -->
+        <router-link to="/first"></router-link>
+        <router-link to="/second"></router-link>
+        <router-link to="/adminListCom"></router-link>
+        <router-link to="/studentList"></router-link>
+        <router-link to="/courseList"></router-link>
+        <router-link to="/vedioList"></router-link>
+        <router-link to="/courseEditList"></router-link>
+      </div>
+
+      <!--&lt;!&ndash; 5、在页面上使用<router-view></router-view>标签，用于渲染匹配的组件 &ndash;&gt;-->
+      <router-view></router-view>
+    </div>
+
+    <script src="/dist/build.js">
+
+
+    </script>
+    <script>
+
+    </script>
+  </body>
+</html>

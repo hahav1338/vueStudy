@@ -1,0 +1,45 @@
+es6  一个开发语言的规范
+
+es6  5   求和
+var sum=0；
+[3,9,47,25,6,8].map(function(elem){
+
+sum+=elem;
+})
+封装性优于js  封装到函数里面 可以写活
+封装性 类的写法  异步的规范
+
+配置es6插件
+
+preferences package controll    install package   javascriptNextes6 (左下角安装)
+
+view  syntax  es6
+
+
+
+es6 谷歌 支持 65% 使用是不划算的 
+es5-6 针对vue react angualr 而言是一种高度结构化的语法
+解决方案 使用 banbel转换器 是大部分浏览器都是用   将es6转换es5  在里面都已经自带了
+https://babeljs.io
+
+
+安装vue.js 
+判断npm版本 》3.0.8   npm i npm g
+安装 webpack  npm install webpack -g
+安装 vue.js   npm install vue -g
+安装vue 命令行工具 npm install -g vue-cli   （热更新 打包）
+创建项目 vue init webpack 名字
+
+use  ESLink to ...   NO
+下面 随便了 yes
+
+
+
+
+进入 项目
+index.js 只是一个模板 并不是一个固定的页面，运行起来 是一个导入app的一个文件
+进入 main.js
+
+导入  import
+跳入 app.vue 
+里面  组件 components 里面有个 hello.vue(这个才是界面上面显示的东西)

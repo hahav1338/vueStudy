@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <!--<script type="text/javascript">-->
+          <!--function validateForm(){-->
+            <!--if(document.reply.title.value == ""){ //通过form名来获取form-->
+              <!--alert("please input the title!");-->
+              <!--document.reply.title.focus();-->
+              <!--return false;-->
+            <!--}-->
+            <!--if(document.forms[0].cont.value == ""){ //通过forms数组获取form-->
+              <!--alert("please input the content!");-->
+              <!--document.reply.cont.focus();-->
+              <!--return false;-->
+            <!--}-->
+            <!--return true;-->
+          <!--}-->
+          <!--</script>-->
+  <script src = "jquery.min.js"></script>
+    </head>
+<body>
+<form action="www.baidu.com" class = "baidu">
+  <div>
+    <form action="www.sina.com" id = "sina">
+      <button id="submitBtn">提交</button>
+
+    </form>
+  </div>
+
+</form>
+<script>
+  console.log(document.getElementById("submitBtn").parentNode);
+//  $('#submitBtn').on('click',function(ev){
+//    console.log($.parents(this));
+//    window.__smartNav.attachForm = function()
+//    {
+//      var cf = document.getElementsByTagName('form');
+//      for (var i=cf.length; i>0; i--)
+//      {
+//        if ((typeof(cf[i].__smartNavEnabled) != "undefined") && (cf[i].__smartNavEnabled != null))
+//        {
+//          window.__smartNav.form = cf[i];
+//          window.__smartNav.form.insertAdjacentHTML("beforeEnd", "<input type='hidden' name='__smartNavPostBack' value='false' />");
+//          console.log( cf[i]);
+//          break;
+//        }
+//      }
+//      var snfm = window.__smartNav.form;
+//      if ((typeof(snfm) == "undefined") || (snfm == null)) return false;
+//      var sft = snfm.target;
+//      if (sft.length != 0 && sft.indexOf("__hifSmartNav") != 0) return false;
+//      var sfc = snfm.action.split("?")[0];
+//      var url = window.location.href.split("?")[0];
+//      if (url.charAt(url.length-1) != '/' && url.lastIndexOf(sfc) + sfc.length != url.length) return false;
+//      if (snfm.__formAttached == true) return true;
+//      snfm.__formAttached = true;
+//      snfm.attachEvent("onsubmit", window.__smartNav.init);
+//      snfm._submit = snfm.submit;
+//      snfm.submit = window.__smartNav.submit;
+//      snfm.target = window.__smartNav.hifName;
+//      return true;
+//    };
+//    //submit();
+//
+//  });
+
+
+//
+//  //console.log(validate());
+//  var flag = true;
+//  $("#submitBtn").on("click",function(ev){
+//    //验证
+//    //var _isValidate = validate();
+//
+//    if(flag){
+//      flag = false;
+//      //如果验证通过，则进一步做其它处理，比如弹出对话框等，并最终返回true或false
+//      $('#sina').submit();
+//    }else{
+//      //如果验证不通过，一定要阻止html的默认事件，防止错误提交
+//      $('#sina').submit();
+//      ev.preventDefault();
+//    }
+//    console.log(111);
+//  });
+//  $(".baidu").on("submit",function(ev){
+//    //验证
+//    //var _isValidate = validate();
+//
+//    if(flag){
+//      flag = true;
+//      //如果验证通过，则进一步做其它处理，比如弹出对话框等，并最终返回true或false
+//      return confirm('是否');
+//    }else{
+//      //如果验证不通过，一定要阻止html的默认事件，防止错误提交
+//      ev.preventDefault();
+//    }
+//    console.log(222);
+//  });
+</script>
+</body>
+</html>
